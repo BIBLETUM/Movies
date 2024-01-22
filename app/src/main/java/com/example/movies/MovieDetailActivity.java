@@ -48,7 +48,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         TrailersAdapter trailersAdapter = new TrailersAdapter();
         recyclerViewTrailers.setAdapter(trailersAdapter);
-        recyclerViewTrailers.setLayoutManager(new LinearLayoutManager(this));
 
         movieDetailViewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
         movieDetailViewModel.loadTrailers(movie.getId());
