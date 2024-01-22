@@ -3,6 +3,8 @@ package com.example.movies;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MovieDetailActivity extends AppCompatActivity {
     private static final String EXTRA_MOVIE = "movie";
     private MovieDetailViewModel movieDetailViewModel;
+    private RecyclerView recyclerViewTrailers;
     private ImageView imageViewPoster;
     private TextView textViewTitle;
     private TextView textViewYear;
@@ -43,14 +46,20 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewYear.setText(String.valueOf(movie.getYear()));
         textViewDescription.setText(movie.getDescription());
 
+        TrailersAdapter trailersAdapter = new TrailersAdapter();
+        recyclerViewTrailers.setAdapter(trailersAdapter);
+        recyclerViewTrailers.setLayoutManager(new LinearLayoutManager(this));
+
         movieDetailViewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
         movieDetailViewModel.loadTrailers(movie.getId());
         movieDetailViewModel.getTrailers().observe(this, new Observer<List<Trailer>>() {
             @Override
             public void onChanged(List<Trailer> trailers) {
-                Log.d("aboba", trailers.toString());
+                trailersAdapter.setTrailers(trailers);
+                Log.d("adas", trailers.toString());
             }
         });
+
 
     }
 
@@ -59,6 +68,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewTitle = findViewById(R.id.textViewTitle);
         textViewYear = findViewById(R.id.textViewYear);
         textViewDescription = findViewById(R.id.textViewDescription);
+        recyclerViewTrailers = findViewById(R.id.recyclerViewTrailers);
     }
 
     public static Intent newIntent(Context context, Movie movie){
