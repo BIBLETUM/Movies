@@ -19,8 +19,8 @@ public class Trailer {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getUrl() {
+        return url;
     }
 
     @Override
