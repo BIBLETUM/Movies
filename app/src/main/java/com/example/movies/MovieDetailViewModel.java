@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -41,7 +43,8 @@ public class MovieDetailViewModel extends AndroidViewModel {
                 .subscribe(new Consumer<List<Trailer>>() {
                     @Override
                     public void accept(List<Trailer> trailersFromAPI) throws Throwable {
-                        trailers.setValue(trailersFromAPI);
+                        List<Trailer> tmp = new ArrayList<>(new HashSet<>(trailersFromAPI));
+                        trailers.setValue(tmp);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
