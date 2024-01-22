@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Movie> movies) {
                 moviesAdapter.setMovies(movies);
+            }
+        });
+        moviesAdapter.setOnPosterClickListener(new MoviesAdapter.OnPosterClickListener() {
+            @Override
+            public void onPosterClick(Movie movie) {
+                Intent intent = MovieDetailActivity.newIntent(MainActivity.this, movie);
+                startActivity(intent);
             }
         });
         moviesAdapter.setOnReachEndListener(new MoviesAdapter.OnReachEndListener() {
