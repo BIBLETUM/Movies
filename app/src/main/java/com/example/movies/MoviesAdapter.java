@@ -1,6 +1,7 @@
 package com.example.movies;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         holder.ratingTextView.setBackground(background);
         holder.ratingTextView.setText(String.format("%.1f", rating));
 
-        if(position == movies.size() - 1 && onReachEndListener != null){
+        if(position >= movies.size() - 10 && onReachEndListener != null){
             onReachEndListener.onReachEnd();
         }
     }
