@@ -1,5 +1,6 @@
 package com.example.movies;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -36,10 +38,27 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     @Override
     public void onBindViewHolder(@NonNull MoviesViewHolder holder, int position) {
         Movie movie = movies.get(position);
-        Glide.with(holder.itemView)
-                .load(movie.getPoster().getUrl())
-                .into(holder.posterImageView);
-        double rating = Double.parseDouble(movie.getRating().getKp());
+        if(movie.getPoster().getUrl() != null){
+            Glide.with(holder.itemView)
+                    .load(movie.getPoster().getUrl())
+                    .into(holder.posterImageView);
+        } else {
+            Glide.with(holder.itemView)
+                    .load("https://st.kp.yandex.net/images/no-poster.gif")
+                    .into(holder.posterImageView);
+        }
+
+        double rating = movie.getRating().getKp();
+        int backGroundId;
+        if(rating >= 7.2){
+            backGroundId = R.drawable.circle_green;
+        } else if (rating >= 6.0) {
+            backGroundId = R.drawable.circle_orange;
+        } else {
+            backGroundId = R.drawable.circle_red;
+        }
+        Drawable background = ContextCompat.getDrawable(holder.itemView.getContext(), backGroundId);
+        holder.ratingTextView.setBackground(background);
         holder.ratingTextView.setText(String.format("%.1f", rating));
     }
 
