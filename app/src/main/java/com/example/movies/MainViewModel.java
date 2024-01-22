@@ -21,22 +21,30 @@ public class MainViewModel extends AndroidViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final MutableLiveData<List<Movie>> movies = new MutableLiveData<>();
     private int page = 1;
+
     public MainViewModel(@NonNull Application application) {
         super(application);
     }
+
     public LiveData<List<Movie>> getMovies() {
         return movies;
     }
 
-    public void loadMovies(){
+    public void loadMovies() {
         Disposable disposable = ApiFactory.apiService.loadMovies(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<MovieResponce>() {
                     @Override
                     public void accept(MovieResponce movieResponce) throws Throwable {
+                        List<Movie> loadedMovies = movies.getValue();
+                        if (loadedMovies != null) {
+                            loadedMovies.addAll(movieResponce.getMovies());
+                            movies.setValue(loadedMovies);
+                        } else {
+                            movies.setValue(movieResponce.getMovies());
+                        }
                         page++;
-                        movies.setValue(movieResponce.getMovies());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
