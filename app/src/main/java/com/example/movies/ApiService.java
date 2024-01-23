@@ -13,11 +13,16 @@ public interface ApiService {
     })
     @GET("movie?rating.kp=7-10&sortField=votes.kp&sortType=-1&limit=30")
     Single<MovieResponce> loadMovies(@Query("page") int page);
-
     @Headers({
             "Accept: application/json",
             "X-API-KEY: F6SMH2H-CAMMFSB-Q5CB6VE-53FH3R0"
     })
     @GET("movie/{id}")
     Single<VideosResponce> loadTrailers(@Path("id") int id);
+    @Headers({
+            "Accept: application/json",
+            "X-API-KEY: F6SMH2H-CAMMFSB-Q5CB6VE-53FH3R0"
+    })
+    @GET("review?page=1&limit=10&selectFields=type&selectFields=review&selectFields=author")
+    Single<ReviewResponse> loadReviews(@Query("movieId") int movieId);
 }
