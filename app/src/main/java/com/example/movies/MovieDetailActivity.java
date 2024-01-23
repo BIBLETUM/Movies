@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private static final String EXTRA_MOVIE = "movie";
     private MovieDetailViewModel movieDetailViewModel;
     private RecyclerView recyclerViewTrailers;
+    private RecyclerView recyclerViewReviews;
     private ImageView imageViewPoster;
     private TextView textViewTitle;
     private TextView textViewYear;
@@ -43,7 +45,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         TrailersAdapter trailersAdapter = new TrailersAdapter();
         recyclerViewTrailers.setAdapter(trailersAdapter);
 
+        ReviewsAdapter reviewsAdapter = new ReviewsAdapter();
+        recyclerViewReviews.setAdapter(reviewsAdapter);
+
         movieDetailViewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
+
         movieDetailViewModel.loadTrailers(movie.getId());
         movieDetailViewModel.getTrailers().observe(this, new Observer<List<Trailer>>() {
             @Override
@@ -65,7 +71,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieDetailViewModel.getReviews().observe(this, new Observer<List<Review>>() {
             @Override
             public void onChanged(List<Review> reviews) {
-
+                Log.d("aboba", reviews.toString());
+                reviewsAdapter.setReviews(reviews);
             }
         });
     }
@@ -77,6 +84,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewYear = findViewById(R.id.textViewYear);
         textViewDescription = findViewById(R.id.textViewDescription);
         recyclerViewTrailers = findViewById(R.id.recyclerViewTrailers);
+        recyclerViewReviews = findViewById(R.id.recyclerViewReviews);
     }
 
     public static Intent newIntent(Context context, Movie movie) {
