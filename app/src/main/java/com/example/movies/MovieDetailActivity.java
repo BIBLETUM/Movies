@@ -17,6 +17,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class MovieDetailActivity extends AppCompatActivity {
     private static final String EXTRA_MOVIE = "movie";
     private MovieDetailViewModel movieDetailViewModel;
@@ -67,7 +69,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
 
-        movieDetailViewModel.loadReviews(movie.getId());
         movieDetailViewModel.getReviews().observe(this, new Observer<List<Review>>() {
             @Override
             public void onChanged(List<Review> reviews) {
@@ -75,6 +76,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 reviewsAdapter.setReviews(reviews);
             }
         });
+        movieDetailViewModel.loadReviews(movie.getId());
     }
 
 
