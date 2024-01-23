@@ -32,13 +32,9 @@ public class MovieDetailViewModel extends AndroidViewModel {
     public LiveData<Movie> getFavMovie(int id){
         return movieDao.getFavMovie(id);
     }
-
-
-
     public LiveData<List<Trailer>> getTrailers() {
         return trailers;
     }
-
     public LiveData<List<Review>> getReviews() {
         return reviews;
     }
